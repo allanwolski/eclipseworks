@@ -35,7 +35,7 @@ class NasaBloc extends Bloc<NasaEvent, NasaState> {
     Emitter<NasaState> emit,
   ) async {
     var favorites = await storage.retrieveFavorites();
-    favorites.sort((a, b) => a.date.compareTo(b.date));
+    favorites.sort((a, b) => b.date.compareTo(a.date));
     emit(state.copyWith(favorites: favorites));
   }
 
@@ -75,7 +75,7 @@ class NasaBloc extends Bloc<NasaEvent, NasaState> {
     }
 
     storage.storeFavorites(favorites);
-    favorites.sort((a, b) => a.date.compareTo(b.date));
+    favorites.sort((a, b) => b.date.compareTo(a.date));
     emit(state.copyWith(favorites: favorites));
   }
 }

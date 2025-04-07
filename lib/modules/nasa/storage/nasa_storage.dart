@@ -10,11 +10,15 @@ abstract class NasaStorage {
   Future<void> storeFavorites(List<Apod> favorites);
 }
 
-class NasaStorageImpl extends StorageClient implements NasaStorage {
+class NasaStorageImpl implements NasaStorage {
+  final Storage storage;
   final _store = StoreRef<String, String>('nasa');
+
+  NasaStorageImpl(this.storage);
 
   @override
   Future<List<Apod>> retrieveFavorites() async {
+    var db = await storage.db;
     var record = await _store.record('favorites').get(db);
     if (record == null) return [];
     return List<Apod>.from(
@@ -24,6 +28,7 @@ class NasaStorageImpl extends StorageClient implements NasaStorage {
 
   @override
   Future<void> storeFavorites(List<Apod> favorites) async {
+    var db = await storage.db;
     await _store.record('favorites').put(db, jsonEncode(favorites));
   }
 }
