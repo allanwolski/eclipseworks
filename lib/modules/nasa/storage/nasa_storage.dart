@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:sembast/sembast.dart';
-
 import '../../../common/storage/storage.dart';
 import '../models/apod.dart';
 
@@ -12,14 +10,11 @@ abstract class NasaStorage {
 
 class NasaStorageImpl implements NasaStorage {
   final Storage storage;
-  final _store = StoreRef<String, String>('nasa');
-
-  NasaStorageImpl(this.storage);
+  const NasaStorageImpl(this.storage);
 
   @override
   Future<List<Apod>> retrieveFavorites() async {
-    var db = await storage.db;
-    var record = await _store.record('favorites').get(db);
+    var record = await storage.getString('favorites');
     if (record == null) return [];
     return List<Apod>.from(
       jsonDecode(record).map((e) => Apod.fromJson(e)),
@@ -28,7 +23,6 @@ class NasaStorageImpl implements NasaStorage {
 
   @override
   Future<void> storeFavorites(List<Apod> favorites) async {
-    var db = await storage.db;
-    await _store.record('favorites').put(db, jsonEncode(favorites));
+    await storage.putString('favorites', jsonEncode(favorites));
   }
 }
