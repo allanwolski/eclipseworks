@@ -15,7 +15,7 @@ void main() {
   });
 
   test(
-    'Should return a Apod when get astronomy picture of the day',
+    'Should return a Apod object when get astronomy picture of the day',
     () async {
       var response = await repository.getAstronomyPictureOfDay();
       expect(response, isA<Apod>());

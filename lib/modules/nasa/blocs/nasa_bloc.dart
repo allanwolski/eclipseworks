@@ -58,7 +58,7 @@ class NasaBloc extends Bloc<NasaEvent, NasaState> {
         apod: apod,
         status: NasaStatus.loaded,
       ));
-    } on Exception {
+    } catch (e) {
       emit(state.copyWith(status: NasaStatus.error));
     }
   }

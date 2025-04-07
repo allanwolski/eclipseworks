@@ -26,7 +26,7 @@ void main() {
   });
 
   blocTest(
-    'Should emit a nasa state when a new picture is requested',
+    'Should emit NasaStatus.loaded when a new image request succeeds',
     build: () => bloc,
     setUp: () {
       when(() => repository.getAstronomyPictureOfDay()).thenAnswer((_) async => apodMock);
@@ -41,10 +41,25 @@ void main() {
   );
 
   blocTest(
-    'Should emit a nasa state when a picture is saved to favorites',
+    'Should emit NasaStatus.error when a new image request fails',
     build: () => bloc,
     setUp: () {
-      when(() => storage.storeFavorites(any())).thenAnswer((_) async => Future.value());
+      when(() => repository.getAstronomyPictureOfDay()).thenThrow((_) => Exception());
+    },
+    act: (NasaBloc bloc) => bloc.add(
+      NasaEventPictureRequested(),
+    ),
+    expect: () => [
+      NasaState(status: NasaStatus.loading),
+      NasaState(status: NasaStatus.error),
+    ],
+  );
+
+  blocTest(
+    'Should update state when an image is saved to favorites',
+    build: () => bloc,
+    setUp: () {
+      when(() => storage.storeFavorites(any())).thenAnswer((_) => Future.value());
     },
     act: (NasaBloc bloc) => bloc.add(
       NasaEventFavoriteChanged(apodMock),

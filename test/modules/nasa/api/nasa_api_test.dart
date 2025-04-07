@@ -17,13 +17,12 @@ void main() {
   });
 
   test(
-    'Should return a Apod when get astronomy picture of the day request return with success',
+    'Should return a Apod object when get astronomy picture of the day return with success',
     () async {
       when(
         () => httpClient.get(
           any(),
           queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
         ),
       ).thenAnswer(
         (_) async => Response(
@@ -38,13 +37,12 @@ void main() {
   );
 
   test(
-    'Should throw a Exception when get astronomy picture of the day request return with error',
+    'Should throw a Exception when get astronomy picture of the day return with error',
     () {
       when(
         () => httpClient.get(
           any(),
           queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
         ),
       ).thenThrow(Exception());
       final response = api.getAstronomyPictureOfDay(DateTime.now());
