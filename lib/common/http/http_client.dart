@@ -3,7 +3,9 @@ import 'dart:io' as io;
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/foundation.dart';
+import 'package:http_cache_sembast_store/http_cache_sembast_store.dart';
 
 class HttpClient with DioMixin {
   HttpClient() {
@@ -22,6 +24,15 @@ class HttpClient with DioMixin {
             return host == 'api.nasa.gov';
           };
       },
+    );
+
+    final cacheOptions = CacheOptions(
+      store: SembastCacheStore(storePath: '${io.Directory.systemTemp.path}/cache.db'),
+      policy: CachePolicy.forceCache,
+    );
+
+    interceptors.add(
+      DioCacheInterceptor(options: cacheOptions),
     );
 
     if (kDebugMode) {
