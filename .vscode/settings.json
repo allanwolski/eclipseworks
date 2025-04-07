@@ -1,0 +1,18 @@
+{
+  "search.exclude": {
+    "**/.fvm": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true
+  },
+  "dartImport.fixOnSave": true,
+  "dart.lineLength": 100,
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [
+      100
+    ]
+  },
+  "dart.flutterSdkPath": "/Users/allanwolski/fvm/versions/3.29.2"
+}
